@@ -14,8 +14,8 @@ COPY ./VERSION /app/VERSION
 
 RUN yarn install --network-timeout 600000 --frozen-lockfile && yarn build
 
-# Use stable multi-arch serversideup/php image
-FROM serversideup/php:8.3-fpm-alpine
+# 1. CAMBIO CLAVE: Usamos la imagen basada en Debian (bookworm) en lugar de alpine
+FROM serversideup/php:8.3-fpm-bookworm
 
 ENV PHP_OPCACHE_ENABLE=1
 
@@ -24,7 +24,16 @@ USER root
 
 RUN install-php-extensions intl
 
-RUN apk add --no-cache nodejs yarn nginx supervisor dos2unix
+# 2. CAMBIO CLAVE: Cambiamos 'apk add' por 'apt-get' para instalar dependencias en Debian
+RUN apt-get update && apt-get install -y \
+    nodejs \
+    npm \
+    nginx \
+    supervisor \
+    dos2unix \
+    && npm install --global yarn \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=node-frontend /app/frontend /app/frontend
 
