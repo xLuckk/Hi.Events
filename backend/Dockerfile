@@ -1,4 +1,4 @@
-FROM serversideup/php:8.4-fpm-nginx-alpine
+FROM serversideup/php:8.4-fpm-nginx-bookworm
 
 ENV PHP_OPCACHE_ENABLE=1
 
