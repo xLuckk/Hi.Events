@@ -35,6 +35,7 @@ class UpdateEventAction extends BaseAction
                     array_merge(
                         $request->validated(),
                         [
+                            'attributes' => $request->input('attributes'),
                             'id' => $eventId,
                             'account_id' => $this->getAuthenticatedAccountId(),
                             'user_id' => $authorisedUser->getId(),
