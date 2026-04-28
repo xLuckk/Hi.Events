@@ -82,6 +82,7 @@ readonly class UpdateEventHandler
                 'currency' => $eventData->currency ?? $existingEvent->getCurrency(),
                 'location' => $eventData->location,
                 'location_details' => $eventData->location_details?->toArray(),
+                'attributes' => $eventData->attributes?->map(fn($attr) => $attr->toArray())->toArray()
             ],
             where: [
                 'id' => $eventData->id,
